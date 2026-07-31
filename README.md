@@ -1,6 +1,6 @@
 # MSRE Temperature Coefficient of Reactivity Study
 
-A CAD-based Monte Carlo neutron transport study of the Molten Salt Reactor Experiment (MSRE), built with [OpenMC](https://openmc.org) and DAGMC. The goal of this project is to measure the MSRE's **temperature coefficient of reactivity** — the passive safety feedback that made the reactor self-stabilizing — and compare the result against historical measurements from Oak Ridge National Laboratory.
+A CAD-based Monte Carlo neutron transport study of the Molten Salt Reactor Experiment (MSRE), built with [OpenMC](https://openmc.org) and DAGMC. The goal of this project is to measure the MSRE's **temperature coefficient of reactivity** and compare the result against historical measurements from Oak Ridge National Laboratory.
 
 ## Attribution
 
