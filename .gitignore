@@ -1,0 +1,6 @@
+statepoint.*.h5
+summary.h5
+tallies.out
+*.xml
+*.h5m
+__pycache__/
