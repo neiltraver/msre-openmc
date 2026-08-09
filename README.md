@@ -61,6 +61,8 @@ python step_to_h5m.py      # regenerate .h5m geometry from .step files
 python msre_critical.py    # run the simulation
 ```
 
+Mesh notes: The conversion must use the stl2 backend (as in step_to_h5m.py); the older stl backend produces meshes with transport-breaking leaks. check_watertight reports a small number of topological defects in the core mesh (252 of ~3.5M edges unmatched, 15 of 22,333 surfaces unsealed). These are reproduced identically by the conversion script at default settings and are present in the mesh used for all results here; no lost particles occur during transport, so they do not affect results. Note also that this model composes the core, pit, and control rod as three separate DAGMC universes rather than the merged geometry shown in the tutorial video, so absolute k-effective and leakage differ from the video's results; the temperature coefficient study depends only on relative changes across a fixed geometry.
+
 Requires OpenMC 0.14.0 with DAGMC support and the ENDF/B-VIII.0 HDF5 data library (`OPENMC_CROSS_SECTIONS` must point to its `cross_sections.xml`).
 
 ## References
