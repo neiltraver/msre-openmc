@@ -9,7 +9,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from openmc.mpi import comm
 
-salt_temp = 648.9
+import os
+salt_temp = float(os.environ.get('SALT_TEMP', 648.9))
 salt = openmc.Material(name="salt", temperature = salt_temp + 273.15)
 salt.add_nuclide('Li6', 0.000013154112468023)
 salt.add_nuclide('Li7', 0.26308224936046)
@@ -230,10 +231,10 @@ geometry = openmc.Geometry([pit_cell, core_cell,cr1_cell,cr2_cell,cr3_cell])
 
 # Settings
 settings = openmc.Settings()
-settings.temperature = {'method':'interpolation','range':(293.15,923.15)}
-settings.batches = 20
-settings.inactive = 5
-settings.particles = 2000
+settings.temperature = {'method':'interpolation','range':(293.15,1300.0)}
+settings.batches = 50
+settings.inactive = 10
+settings.particles = 10000
 settings.photon_transport = False
 source_area = openmc.stats.Box([-100., -100., 0.],[ 100.,  100.,  200.],
               only_fissionable = True)
