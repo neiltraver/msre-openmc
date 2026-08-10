@@ -46,8 +46,9 @@ salt.add_nuclide('O16', 5.14608150091125E-05)
 salt.add_nuclide('O17', 1.89357307228381E-08)
 salt.add_nuclide('O18', 9.64845134923903E-08)
 salt.add_nuclide('F19', 0.594362994831631)
-salt.set_density('g/cm3',2.32556)
-salt.volume = (4560*1000)/2.32556
+salt_density = 2.848 - 7.693e-4 * salt_temp   # ORNL-3913 correlation
+salt.set_density('g/cm3', salt_density)
+salt.volume = (4560*1000)/salt_density
 
 graphite = openmc.Material(name='graphite',temperature= salt_temp + 273.15)
 graphite.set_density('g/cm3',1.86)
