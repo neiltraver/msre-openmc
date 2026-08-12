@@ -41,7 +41,54 @@ This study models both effects by coupling the fuel salt's temperature and densi
 
 ## Results
 
-Study in progress — results will be added as the temperature sweep is completed.
+## Results
+
+A sweep of the fuel salt temperature from 500 °C to 1000 °C in 50 °C steps was run at 50 batches (10 inactive) × 10,000 particles per batch. In this model the salt, graphite moderator, and INOR-8 vessel are all set to the same temperature, so the measured quantity is the **isothermal** temperature coefficient — the response to heating the whole core uniformly — rather than the fuel-only coefficient.
+
+| Salt temp (°C) | k-effective | ± σ (k) | Reactivity (pcm) | ± σ (pcm) |
+|---|---|---|---|---|
+| 500 | 1.013936 | 0.001473 | +1374.4 | 143.3 |
+| 550 | 1.005109 | 0.001291 | +508.3 | 127.8 |
+| 600 | 0.992802 | 0.002025 | −725.0 | 205.4 |
+| 650 | 0.986640 | 0.001913 | −1354.1 | 196.6 |
+| 700 | 0.977799 | 0.001347 | −2271.0 | 141.0 |
+| 750 | 0.967159 | 0.001436 | −3395.6 | 153.5 |
+| 800 | 0.959889 | 0.001519 | −4178.7 | 164.9 |
+| 850 | 0.950695 | 0.001538 | −5186.2 | 170.2 |
+| 900 | 0.944324 | 0.001074 | −5895.9 | 120.4 |
+| 950 | 0.933517 | 0.001662 | −7121.8 | 190.7 |
+| 1000 | 0.921383 | 0.001280 | −8532.5 | 150.8 |
+
+Reactivity is computed as ρ = (k − 1)/k and reported in pcm (10⁻⁵ Δρ).
+
+**Measured isothermal temperature coefficient, fitted over 500–700 °C:**
+
+> **α = −18.3 ± 1.0 pcm/°C**
+
+The model crosses criticality (k = 1) at approximately 560 °C. Over the 500–700 °C range the reactivity falls by about 3600 pcm, which is roughly 5.6 dollars taking β ≈ 650 pcm for ²³⁵U — that is, a 200 °C excursion suppresses itself by more than five dollars of reactivity.
+
+![Reactivity vs Temperature](reactivity_vs_temperature.png)
+
+### Comparison with ORNL values
+
+Prince and Engel derived importance-averaged temperature coefficients for the MSRE of −4.4 × 10⁻⁵ /°F for the fuel and −7.3 × 10⁻⁵ /°F for the graphite, for a reactor fueled with salt containing no thorium. Converting to per-°C and summing gives an isothermal coefficient of approximately **−21.1 pcm/°C** (fuel −7.9, graphite −13.1).
+
+| Quantity | This work | ORNL (Prince & Engel) |
+|---|---|---|
+| Isothermal coefficient | −18.3 ± 1.0 pcm/°C | ≈ −21.1 pcm/°C |
+
+The agreement is within about 13%. Because this model heats salt and graphite together, the comparison is to the *sum* of the two ORNL coefficients rather than to either individually.
+
+### Limitations
+
+Several known differences between this model and the MSRE benchmark plausibly account for the remaining discrepancy:
+
+- **Only the fuel salt expands.** Salt density is coupled to temperature via the ORNL-3913 correlation, but graphite and vessel densities and all component dimensions are held fixed. Thermal expansion of the graphite is therefore not represented.
+- **Geometry composition.** The core, reactor pit, and control rod are loaded as three separate DAGMC universes rather than the merged geometry used in the tutorial, giving a different leakage fraction (≈0.217) and absolute k than the benchmark model.
+- **Control rod position** is fixed at the position inherited from the base model and was not matched to any specific ORNL experimental configuration.
+- **Density correlation extrapolation.** The ORNL-3913 correlation is applied across the full 500–1000 °C sweep. The quoted coefficient is fitted only over 500–700 °C, within the MSRE's operating regime; points above 700 °C are shown to illustrate the trend and involve extrapolation of the correlation beyond the conditions in which the salt was characterized. Over 700–1000 °C the fitted slope steepens to roughly −21 pcm/°C, but this region is outside the range in which the density correlation can be relied on.
+- **Coefficients are not decomposed.** Separating the fuel and graphite contributions would require independent temperature variables for the two materials and is not done here.
+
 
 ## Repository contents
 
@@ -67,9 +114,13 @@ Requires OpenMC 0.14.0 with DAGMC support and the ENDF/B-VIII.0 HDF5 data librar
 
 ## References
 
-- ORNL-3913, *Reactor Chemistry Division Annual Progress Report* — source of the MSRE fuel salt density correlation.
-- openmsr/msre repository documentation and linked MSRE design reports.
-- P. K. Romano et al., "OpenMC: A state-of-the-art Monte Carlo code for research and development," *Ann. Nucl. Energy* 82 (2015).
+1. W. R. Grimes et al., *Reactor Chemistry Division Annual Progress Report for Period Ending January 31, 1965*, ORNL-3913, Oak Ridge National Laboratory (1965) — fuel salt density correlation, d = 2.848 − 7.693 × 10⁻⁴ · t(°C).
+2. B. E. Prince and J. R. Engel, *Temperature and Reactivity Coefficient Averaging in the MSRE*, Oak Ridge National Laboratory — importance-averaged fuel and graphite temperature coefficients. https://www.osti.gov/biblio/4768339
+3. R. C. Robertson, *MSRE Design and Operations Report Part I: Description of Reactor Design*, ORNL-TM-0728, Oak Ridge National Laboratory (1965).
+4. D. Shen and M. Fratoni, "Benchmark Evaluation of Reactivity Effects and Reactivity Coefficients in the Molten Salt Reactor Experiment," *EPJ Web of Conferences* (PHYSOR 2020). https://www.epj-conferences.org/articles/epjconf/pdf/2021/01/epjconf_physor2020_06043.pdf
+5. P. K. Romano et al., "OpenMC: A state-of-the-art Monte Carlo code for research and development," *Annals of Nuclear Energy* **82**, 90–97 (2015).
+6. MSRE CAD model and OpenMC/DAGMC workflow: openmsr/msre, Copenhagen Atomics (GPL-3.0). https://github.com/openmsr/msre
+
 
 ## License
 
